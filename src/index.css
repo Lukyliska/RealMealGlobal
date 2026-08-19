@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* Page background and the alternating section tone. */
+  --color-canvas: #ffffff;
+  --color-panel: #f5f5f0;
+  /* Cards read as white and are defined by their border, so they lift off both tones. */
+  --color-panel-2: #ffffff;
+
+  /* Body text. Kept the name "paper" so every text-paper/NN utility still resolves. */
+  --color-paper: #16161a;
+  /* Dark text that sits ON a lime fill (buttons, badges, skip link). */
+  --color-ink: #0a0a0a;
+  --color-muted: #5a5a52;
+
+  /* Brand lime — FILLS ONLY. As text on white it measures 1.39:1, so it must never
+     carry text, icons, thin borders or the focus ring. */
+  --color-lime: #c4e93a;
+  /* Same brand family, darkened to 5.7:1 on white: text, icons, borders, focus ring. */
+  --color-accent: #54700a;
+
+  --color-line: #dcdcd4;
+  /* Form-control border: WCAG 1.4.11 wants 3:1 for interactive boundaries. */
+  --color-control: #8a8a7e;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Keeps anchor targets clear of the fixed header instead of relying on section padding. */
+  scroll-padding-top: 6rem;
+}
+
+/* Every interactive element gets one consistent, visible focus ring. */
+@layer base {
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+.skip-link {
+  /* fixed, not absolute: absolute would anchor it to the document, so it would sit
+     off-viewport for anyone who has already scrolled. */
+  position: fixed;
+  left: 1rem;
+  top: -100px;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  background: var(--color-lime);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  transition: top 150ms ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 90s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-paper);
+  font-family: var(--font-body);
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
